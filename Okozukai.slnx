@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Okozukai.Api/Okozukai.Api.csproj" />
+    <Project Path="src/Okozukai.AppHost/Okozukai.AppHost.csproj" />
+    <Project Path="src/Okozukai.Application/Okozukai.Application.csproj" />
+    <Project Path="src/Okozukai.Domain/Okozukai.Domain.csproj" />
+    <Project Path="src/Okozukai.Infrastructure/Okozukai.Infrastructure.csproj" />
+    <Project Path="src/Okozukai.ServiceDefaults/Okozukai.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Okozukai.IntegrationTests/Okozukai.IntegrationTests.csproj" />
+    <Project Path="tests/Okozukai.UnitTests/Okozukai.UnitTests.csproj" />
+  </Folder>
+</Solution>

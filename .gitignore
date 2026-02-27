@@ -1,0 +1,78 @@
+## [Standard .NET GitIgnore]
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio files
+.vs/
+Generated\ Files/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Core
+UserSecretsId
+*.user
+*.userosscache
+slnx.cache
+
+# .NET Aspire
+.aspire/
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# NUnit
+/*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# Entity Framework Core
+*.design.log
+*.EFMigrations.txt
+
+# Node.js (if any frontend build tools are added later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Environment Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+

@@ -1,0 +1,24 @@
+Using launch settings from /Users/archer.chang/workspace/Okozukai/src/Okozukai.Api/Properties/launchSettings.json...
+--> Environment is Development. Attempting database migration...
+Unhandled exception. System.InvalidOperationException: ConnectionString is missing. It should be provided in 'ConnectionStrings:okozukai' or under the 'ConnectionString' key in 'Aspire:Npgsql:EntityFrameworkCore:PostgreSQL' or 'Aspire:Npgsql:EntityFrameworkCore:PostgreSQL:OkozukaiDbContext' configuration section.
+   at Aspire.ConnectionStringValidation.ValidateConnectionString(String connectionString, String connectionName, String defaultConfigSectionName, String typeSpecificSectionName, Boolean isEfDesignTime) in /_/src/Components/Common/ConnectionStringValidation.cs:line 16
+   at Microsoft.Extensions.Hosting.AspireEFPostgreSqlExtensions.<>c__DisplayClass2_0`1.<AddNpgsqlDbContext>g__ConfigureDbContext|1(DbContextOptionsBuilder dbContextOptionsBuilder) in /_/src/Components/Aspire.Npgsql.EntityFrameworkCore.PostgreSQL/AspireEFPostgreSqlExtensions.cs:line 76
+   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.<>c__DisplayClass3_0`2.<AddDbContextPool>b__0(IServiceProvider _, DbContextOptionsBuilder ob)
+   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.<>c__DisplayClass6_0`1.<AddPoolingOptions>b__0(IServiceProvider sp, DbContextOptionsBuilder ob)
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.DbContextOptionsConfiguration`1.Configure(IServiceProvider serviceProvider, DbContextOptionsBuilder optionsBuilder)
+   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.CreateDbContextOptions[TContext](IServiceProvider applicationServiceProvider)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.<>c__5`2.<AddDbContextPool>b__5_0(IServiceProvider sp)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Okozukai.Infrastructure.Persistence.MigrationExtensions.ApplyDatabaseMigrations(IServiceProvider services) in /Users/archer.chang/workspace/Okozukai/src/Okozukai.Infrastructure/Persistence/MigrationExtensions.cs:line 16
+   at Program.<Main>$(String[] args) in /Users/archer.chang/workspace/Okozukai/src/Okozukai.Api/Program.cs:line 41

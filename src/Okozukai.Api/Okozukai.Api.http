@@ -1,0 +1,6 @@
+@Okozukai.Api_HostAddress = http://localhost:5005
+
+GET {{Okozukai.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
