@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: Okozukai Dashboards
+    orgId: 1
+    folder: Okozukai
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

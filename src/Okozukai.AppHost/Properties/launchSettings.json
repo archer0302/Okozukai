@@ -40,7 +40,8 @@
         "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://0.0.0.0:18298",
         "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://0.0.0.0:20034",
         "TAILNET_API_PORT": "5005",
-        "TAILNET_FRONTEND_PORT": "5173"
+        "TAILNET_FRONTEND_PORT": "5173",
+        "TAILNET_GRAFANA_PORT": "3000"
       }
     }
   }
