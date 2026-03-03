@@ -85,6 +85,30 @@ The Aspire dashboard opens automatically. The Vue frontend is available at the U
 
 > **Note:** The API applies EF Core migrations automatically on startup. No manual `dotnet ef` commands are required.
 
+### Grafana transaction dashboard (optional)
+
+`aspire run` also starts a Grafana container with a pre-provisioned PostgreSQL datasource and starter dashboard (`Okozukai Transactions Overview`).
+
+Default Grafana login:
+
+- Username: `admin`
+- Password: `admin`
+
+You can override Grafana and datasource settings with environment variables before `aspire run`:
+
+```bash
+export GRAFANA_ADMIN_USER=admin
+export GRAFANA_ADMIN_PASSWORD=admin
+export GRAFANA_DB_HOST=host.docker.internal
+export GRAFANA_DB_PORT=5432
+export GRAFANA_DB_NAME=okozukai
+export GRAFANA_DB_USER=postgres
+export GRAFANA_DB_PASSWORD=yourpassword
+export GRAFANA_DB_SSLMODE=disable
+```
+
+> If your PostgreSQL host is not reachable from containers, set `GRAFANA_DB_HOST` to a container-reachable address (for example, a Docker network hostname).
+
 ### Tailscale / Tailnet access (optional)
 
 To expose the app on your Tailnet, set the `TAILNET_IP` environment variable to your machine's Tailscale IP before running:
@@ -94,7 +118,7 @@ export TAILNET_IP=<your-tailscale-ip>  # e.g. 100.x.x.x
 aspire run --launch-profile tailnet
 ```
 
-`TAILNET_API_PORT` (default `5005`) and `TAILNET_FRONTEND_PORT` (default `5173`) can also be overridden the same way.
+`TAILNET_API_PORT` (default `5005`), `TAILNET_FRONTEND_PORT` (default `5173`), and `TAILNET_GRAFANA_PORT` (default `3000`) can also be overridden the same way.
 
 ## Running tests
 
