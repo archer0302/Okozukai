@@ -63,9 +63,6 @@ Okozukai/                                    # Repository root
 │   │   └── Okozukai.ServiceDefaults.csproj  # Project file
 │   ├── Okozukai.AppHost/                    # .NET Aspire orchestration
 │   │   ├── Program.cs                       # Orchestration definition
-│   │   ├── grafana/                         # Grafana dashboard config
-│   │   │   ├── provisioning/                # Grafana data sources
-│   │   │   └── dashboards/                  # Pre-built dashboards
 │   │   ├── Properties/                      # Launch profiles
 │   │   └── Okozukai.AppHost.csproj          # Project file
 │   └── Okozukai.Web/                        # (Legacy/unused, minimal content)
@@ -137,9 +134,9 @@ Okozukai/                                    # Repository root
 - Contains: OpenTelemetry configuration, health check endpoints
 
 **`src/Okozukai.AppHost/`:**
-- Purpose: .NET Aspire orchestration (local dev orchestration + Grafana)
-- Contains: Distributed application definition, Grafana configuration
-- Key files: `Program.cs` (defines API + Frontend + DB + Grafana resources)
+- Purpose: .NET Aspire orchestration (local dev orchestration)
+- Contains: Distributed application definition
+- Key files: `Program.cs` (defines API + Frontend + DB resources)
 
 **`tests/Okozukai.UnitTests/`:**
 - Purpose: Unit tests for domain and application layers
@@ -278,14 +275,6 @@ Okozukai/                                    # Repository root
 - Generated: Yes (by npm install)
 - Committed: No (in .gitignore)
 - Do not edit; manage via package.json and package-lock.json
-
-**`src/Okozukai.AppHost/grafana/`:**
-- Purpose: Grafana provisioning and dashboard definitions
-- Generated: No
-- Committed: Yes
-- Subdirectories:
-  - `provisioning/`: Grafana data sources (PostgreSQL connection)
-  - `dashboards/`: Pre-built Grafana dashboard JSON files
 
 **`.planning/codebase/`:**
 - Purpose: Generated architecture and planning documents

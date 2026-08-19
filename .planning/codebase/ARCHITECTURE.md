@@ -71,7 +71,6 @@
 │    • Database resource (okozukai connection)                 │
 │    • API service (Okozukai.Api)                             │
 │    • Frontend NPM app (Vue dev server)                       │
-│    • Grafana container (optional monitoring)                 │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -232,7 +231,7 @@
 **Orchestration Entry Point:**
 - Location: `src/Okozukai.AppHost/Program.cs`
 - Triggers: `aspire run`
-- Responsibilities: Register API + Frontend + PostgreSQL + Grafana resources; set environment variables; start distributed app
+- Responsibilities: Register API + Frontend + PostgreSQL resources; set environment variables; start distributed app
 
 ## Architectural Constraints
 

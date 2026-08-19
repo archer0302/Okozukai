@@ -96,9 +96,7 @@
   - `TAILNET_IP` - Tailscale IP for remote access
   - `TAILNET_API_PORT` - API port on Tailnet (default: 5005)
   - `TAILNET_FRONTEND_PORT` - Frontend port on Tailnet (default: 5173)
-  - `TAILNET_GRAFANA_PORT` - Grafana port on Tailnet (default: 3000)
   - `OTEL_EXPORTER_OTLP_ENDPOINT` - OpenTelemetry OTLP export endpoint
-  - Grafana configuration: `GRAFANA_ADMIN_USER`, `GRAFANA_ADMIN_PASSWORD`, `GRAFANA_DB_*`
 
 **Build:**
 - `tsconfig.json` - TypeScript configuration (`src/Okozukai.Frontend`)

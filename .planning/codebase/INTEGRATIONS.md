@@ -106,7 +106,7 @@ This is a self-hosted application with no external API dependencies. All functio
 
 **Deployment Considerations:**
 - Tailscale VPN integration available via `TAILNET_IP` environment variable
-- Port configuration: `TAILNET_API_PORT`, `TAILNET_FRONTEND_PORT`, `TAILNET_GRAFANA_PORT`
+- Port configuration: `TAILNET_API_PORT`, `TAILNET_FRONTEND_PORT`
 - Frontend requires npm build step: `npm run build` (pre-configured in `src/Okozukai.Frontend/package.json`)
 - Database migrations: Auto-applied on API startup (development mode only)
 
@@ -123,8 +123,6 @@ This is a self-hosted application with no external API dependencies. All functio
 - `TAILNET_IP` - Tailscale IP address for remote access
 - `TAILNET_API_PORT` - API port on Tailnet (default: 5005)
 - `TAILNET_FRONTEND_PORT` - Frontend port on Tailnet (default: 5173)
-- `TAILNET_GRAFANA_PORT` - Grafana port on Tailnet (default: 3000)
-- Grafana variables: `GRAFANA_ADMIN_USER`, `GRAFANA_ADMIN_PASSWORD`, `GRAFANA_DB_HOST`, `GRAFANA_DB_PORT`, `GRAFANA_DB_NAME`, `GRAFANA_DB_USER`, `GRAFANA_DB_PASSWORD`, `GRAFANA_DB_SSLMODE`
 
 **Secrets location:**
 - .NET user secrets (development): `~/.microsoft/usersecrets/<UserSecretsId>/secrets.json`
@@ -140,24 +138,6 @@ This is a self-hosted application with no external API dependencies. All functio
 
 **Outgoing:**
 - None — application does not send webhooks to external services
-
-## Grafana Integration (Optional)
-
-**Included Services:**
-- Grafana 11.6.1 container started by Aspire if `aspire run` is used
-- Pre-configured PostgreSQL datasource pointing to the Okozukai database
-- Pre-provisioned dashboard: "Okozukai Transactions Overview"
-
-**Configuration:**
-- Docker container: `grafana/grafana-oss:11.6.1`
-- Port: 3000 (default) or `TAILNET_GRAFANA_PORT`
-- Provisioning: Bind-mounted from `./grafana/provisioning` (read-only)
-- Dashboards: Bind-mounted from `./grafana/dashboards` (read-only)
-- Database connection: PostgreSQL (same database as application)
-
-**Default Credentials:**
-- Username: `admin`
-- Password: `admin` (configurable via `GRAFANA_ADMIN_PASSWORD`)
 
 ## API Documentation
 
