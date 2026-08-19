@@ -10,8 +10,8 @@ Okozukai/                                    # Repository root
 │   ├── settings.json                        # Project-level settings
 │   └── hooks/                               # Git hooks
 ├── .github/                                 # GitHub configuration
-│   ├── workflows/                           # CI/CD workflows (if any)
-│   └── copilot-instructions.md              # GitHub Copilot instructions
+│   └── CODEOWNERS                           # Default PR reviewer
+├── AGENTS.md                                # AI agent instructions (all tools)
 ├── .planning/                               # Planning & analysis output
 │   └── codebase/                            # Generated architecture docs
 ├── src/                                     # All application source code
@@ -84,7 +84,12 @@ Okozukai/                                    # Repository root
 
 **`.github/`:**
 - Purpose: GitHub-specific configuration
-- Contains: Copilot instructions, workflows
+- Contains: CODEOWNERS (default PR reviewer)
+
+**`AGENTS.md`:**
+- Purpose: Instructions for AI coding agents, following the cross-tool AGENTS.md convention
+- Read by: Claude Code, GitHub Copilot, Codex, Cursor
+- Keep current when architecture, API surface, or conventions change
 
 **`.planning/`:**
 - Purpose: Generated planning documents and analysis

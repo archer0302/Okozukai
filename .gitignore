@@ -76,3 +76,7 @@ Thumbs.db
 .env.production.local
 *.pem
 
+
+# Claude Code / GSD tooling — reinstallable, not project source.
+# `.planning/` is deliberately NOT ignored — it is tracked project knowledge.
+.claude/

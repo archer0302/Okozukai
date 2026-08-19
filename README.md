@@ -2,6 +2,8 @@
 
 A self-hosted personal budget tracker built with a clean-architecture .NET 10 backend and a Vue 3 SPA frontend, orchestrated with .NET Aspire.
 
+Every feature listed below is implemented and covered by tests. There is no active development phase in progress.
+
 ## Screenshots
 
 | Light mode | Dark mode |
@@ -53,6 +55,15 @@ tests/
   Okozukai.UnitTests       # Domain + application unit tests
   Okozukai.IntegrationTests# API integration tests (WebApplicationFactory)
 ```
+
+### Design principles
+
+- Domain logic lives in `Okozukai.Domain`; business rules never leak into controllers
+- DTOs in `Okozukai.Application.Contracts` are mapped at the service layer — domain entities are never exposed by the API
+- `ITransactionRepository` / `IJournalRepository` / `ITagRepository` are the persistence boundary; nothing outside `Infrastructure` touches EF Core directly
+- `GlobalExceptionHandler` is the single error-mapping point: `KeyNotFoundException` → 404, `InvalidOperationException` → 409, `ArgumentException` → 400. No per-controller try/catch
+- One journal = one currency; balances are never merged across currencies and there is no implicit conversion
+- Write operations use explicit transaction boundaries, and data migrations avoid destructive rewrites without traceability
 
 ## Prerequisites
 
@@ -109,6 +120,8 @@ cd src/Okozukai.Frontend && npm test
 cd src/Okozukai.Frontend && npm run test:e2e
 ```
 
+Current suite: **31 unit + 22 integration + 16 frontend component tests**, all passing.
+
 ## API overview
 
 | Method | Path | Description |
@@ -121,12 +134,23 @@ cd src/Okozukai.Frontend && npm run test:e2e
 | `PUT/DELETE` | `/api/transactions/{id}?journalId=` | Update / delete a transaction |
 | `GET` | `/api/transactions/summary?journalId=` | Balance summary (totalIn, totalOut, net) |
 | `GET` | `/api/transactions/grouped?journalId=` | Year/month grouped view with rollups |
+| `GET` | `/api/transactions/{id}?journalId=` | Read a single transaction |
 | `GET` | `/api/transactions/spending-by-tag?journalId=` | Spending breakdown by tag |
+| `GET` | `/api/transactions/spending-by-tag-monthly?journalId=` | Per-month spending breakdown by tag |
 | `GET` | `/api/transactions/export?journalId=` | CSV export |
 | `GET/POST` | `/api/tags` | List / create tags |
+| `GET` | `/api/tags/{id}` | Read a single tag |
 | `PUT/DELETE` | `/api/tags/{id}` | Update / delete a tag |
 
-All error responses are structured JSON `{ "message": "...", "detail": "..." }`.
+All error responses go through `GlobalExceptionHandler` and return an ASP.NET
+`ProblemDetails` payload: `{ "title", "status", "detail", "instance", "traceId" }`.
+`ArgumentException` → 400, `KeyNotFoundException` → 404, `InvalidOperationException` → 409.
+
+## Known limitations
+
+- Tag create/update checks name uniqueness before saving, so concurrent writes could race past the check (low risk for a single-user app)
+- Period rollups report `opening` as `0` and `closing` as the period net — they are not cumulative across periods
+- `Tag.Color` is stored without domain-level format validation
 
 ## License
 
