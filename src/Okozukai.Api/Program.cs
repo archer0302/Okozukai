@@ -19,6 +19,15 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+
+var connectionString = builder.Configuration.GetConnectionString("okozukai");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "Missing required configuration: ConnectionStrings__okozukai. " +
+        "Set it as an environment variable before starting the API.");
+}
+
 builder.AddNpgsqlDbContext<OkozukaiDbContext>("okozukai");
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
