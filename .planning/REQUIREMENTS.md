@@ -93,30 +93,30 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PROD-01 | — | Pending |
-| PROD-02 | — | Pending |
-| PROD-03 | — | Pending |
-| PROD-04 | — | Pending |
-| PROD-05 | — | Pending |
-| ORIG-01 | — | Pending |
-| ORIG-02 | — | Pending |
-| ORIG-03 | — | Pending |
-| PKG-01 | — | Pending |
-| PKG-02 | — | Pending |
-| PKG-03 | — | Pending |
-| PKG-04 | — | Pending |
-| PKG-05 | — | Pending |
-| PKG-06 | — | Pending |
-| ACC-01 | — | Pending |
-| ACC-02 | — | Pending |
-| ACC-03 | — | Pending |
-| PERF-01 | — | Pending |
-| PERF-02 | — | Pending |
+| PROD-01 | Phase 1 | Pending |
+| PROD-02 | Phase 1 | Pending |
+| PROD-03 | Phase 1 | Pending |
+| PROD-04 | Phase 1 | Pending |
+| PROD-05 | Phase 1 | Pending |
+| ORIG-01 | Phase 2 | Pending |
+| ORIG-02 | Phase 2 | Pending |
+| ORIG-03 | Phase 2 | Pending |
+| PKG-01 | Phase 2 | Pending |
+| PKG-02 | Phase 2 | Pending |
+| PKG-03 | Phase 2 | Pending |
+| PKG-04 | Phase 2 | Pending |
+| PKG-05 | Phase 2 | Pending |
+| PKG-06 | Phase 2 | Pending |
+| ACC-01 | Phase 3 | Pending |
+| ACC-02 | Phase 3 | Pending |
+| ACC-03 | Phase 3 | Pending |
+| PERF-01 | Phase 4 | Pending |
+| PERF-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 19 total
-- Mapped to phases: 0 ⚠️
-- Unmapped: 19 ⚠️
+- Mapped to phases: 19 ✓
+- Unmapped: 0 ✓
 
 ## Definition of Done
 
@@ -130,4 +130,4 @@ Milestone 1 is complete when:
 
 ---
 *Requirements defined: 2026-08-20*
-*Last updated: 2026-08-20 after initial definition*
+*Last updated: 2026-08-20 after roadmap creation — traceability mapped to phases 1-4, 19/19 requirements covered*

@@ -39,7 +39,7 @@ phase and no roadmap file — see "Source of truth" below.
 - `src/Okozukai.Infrastructure` — EF Core `OkozukaiDbContext`, repository implementations, code-first migrations, `MigrationExtensions` for resilient startup.
 - `src/Okozukai.Api` — `TransactionsController`, `JournalsController`, `TagsController` delegate to services; `GlobalExceptionHandler` maps exceptions to HTTP responses.
 - `src/Okozukai.ServiceDefaults` — shared OpenTelemetry and health-check configuration.
-- `src/Okozukai.AppHost` — Aspire orchestrator: wires PostgreSQL → API → Vue npm app; injects `VITE_API_URL` into the frontend.
+- `src/Okozukai.AppHost` — Aspire orchestrator: wires PostgreSQL → API → Vue app via `AddViteApp` (Aspire.Hosting.JavaScript). `AddViteApp` registers the http endpoint and `PORT` itself — never call `WithHttpEndpoint` on it, that is a duplicate-endpoint error. Ports are auto-assigned unless `TAILNET_IP` is set.
 
 **Frontend (`src/Okozukai.Frontend`, Vue 3 + TypeScript + Vite):**
 - `src/api/` — `client.ts` (Axios instance), `transactionService.ts`, `journalService.ts`
@@ -102,3 +102,27 @@ Mapping: `ArgumentException` → 400, `ArgumentOutOfRangeException` → 400,
 - **`GlobalExceptionHandler` is the single error-mapping point.** Do not add per-controller try/catch.
 - **Frontend API base URL comes from Aspire.** `VITE_API_URL` is injected by the AppHost at dev time; `src/api/client.ts` reads it via `import.meta.env`.
 - **Source of truth:** `README.md` documents the feature set, API surface, and known limitations; `.planning/codebase/` holds the generated architecture map. There is no roadmap or phase plan — keep both current when behaviour changes.
+
+## Planning and workflow
+
+This project uses GSD. Planning state lives in `.planning/` and is tracked in git:
+
+- `PROJECT.md` — what Okozukai is, validated vs active requirements, constraints, key decisions
+- `REQUIREMENTS.md` — milestone requirements with REQ-IDs and phase traceability
+- `ROADMAP.md` — phases, goals, and observable success criteria
+- `STATE.md` — current position in the roadmap
+- `codebase/` — generated architecture map (`/gsd-map-codebase`)
+- `config.json` — workflow settings (mode: yolo, granularity: coarse, sequential)
+
+**Read `STATE.md` first** to find the current phase, then `ROADMAP.md` for that phase's goal
+and success criteria. Requirements are the contract; success criteria are how you know a phase
+is done.
+
+Work proceeds phase by phase: `/gsd-plan-phase N` → `/gsd-execute-phase N` → `/gsd-verify-work`.
+Run `/gsd-progress` to check where things stand.
+
+**Milestone 1 is homelab deployment** — getting Okozukai onto a Linux box running Docker,
+reachable over Tailscale only. It is infrastructure work; it changes no user-facing behaviour.
+
+Note: `.claude/` is gitignored (installer-generated GSD tooling, reinstallable via
+`npx @opengsd/gsd-core`). This file is the tracked agent instruction file, not `.claude/CLAUDE.md`.
