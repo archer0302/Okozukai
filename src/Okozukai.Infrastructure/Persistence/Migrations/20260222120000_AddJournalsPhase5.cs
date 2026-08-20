@@ -27,33 +27,39 @@ namespace Okozukai.Infrastructure.Persistence.Migrations
                     table.PrimaryKey("PK_Journals", x => x.Id);
                 });
 
-            // 2. Insert a "Default" journal using the most common currency from existing transactions.
-            //    Falls back to 'USD' if no transactions exist.
+            // 2. Insert a "Default" journal using the most common currency from existing transactions,
+            //    only when there is pre-existing transaction data to migrate. A brand-new database has
+            //    no legacy flat transactions to backfill, so no journal is created and the ledger stays
+            //    empty (PROD-02/SC-2: a fresh Production boot must write zero rows).
+            //    Falls back to 'USD' if the existing transactions carry no currency (defensive; should
+            //    not occur given the EXISTS guard).
             migrationBuilder.Sql("""
                 DO $$
                 DECLARE
                     default_currency TEXT;
                     default_journal_id UUID := gen_random_uuid();
                 BEGIN
-                    SELECT "Currency" INTO default_currency
-                    FROM "Transactions"
-                    WHERE "Type" != 'Exchange'
-                    GROUP BY "Currency"
-                    ORDER BY COUNT(*) DESC
-                    LIMIT 1;
-
-                    IF default_currency IS NULL THEN
-                        default_currency := 'USD';
-                    END IF;
-
-                    INSERT INTO "Journals" ("Id", "Name", "PrimaryCurrency", "IsClosed", "CreatedAt")
-                    VALUES (default_journal_id, 'Default', default_currency, false, NOW());
-
                     -- 3. Add JournalId column (nullable first so we can backfill)
                     ALTER TABLE "Transactions" ADD COLUMN "JournalId" UUID NULL;
 
-                    -- 4. Backfill all non-Exchange transactions with the default journal
-                    UPDATE "Transactions" SET "JournalId" = default_journal_id WHERE "Type" != 'Exchange';
+                    IF EXISTS (SELECT 1 FROM "Transactions" WHERE "Type" != 'Exchange') THEN
+                        SELECT "Currency" INTO default_currency
+                        FROM "Transactions"
+                        WHERE "Type" != 'Exchange'
+                        GROUP BY "Currency"
+                        ORDER BY COUNT(*) DESC
+                        LIMIT 1;
+
+                        IF default_currency IS NULL THEN
+                            default_currency := 'USD';
+                        END IF;
+
+                        INSERT INTO "Journals" ("Id", "Name", "PrimaryCurrency", "IsClosed", "CreatedAt")
+                        VALUES (default_journal_id, 'Default', default_currency, false, NOW());
+
+                        -- 4. Backfill all non-Exchange transactions with the default journal
+                        UPDATE "Transactions" SET "JournalId" = default_journal_id WHERE "Type" != 'Exchange';
+                    END IF;
 
                     -- 5. Delete Exchange-type transactions (they're being removed from the model)
                     DELETE FROM "Transactions" WHERE "Type" = 'Exchange';

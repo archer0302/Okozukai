@@ -19,6 +19,15 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+
+var connectionString = builder.Configuration.GetConnectionString("okozukai");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "Missing required configuration: ConnectionStrings__okozukai. " +
+        "Set it as an environment variable before starting the API.");
+}
+
 builder.AddNpgsqlDbContext<OkozukaiDbContext>("okozukai");
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -35,10 +44,11 @@ var app = builder.Build();
 app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
+app.Services.ApplyDatabaseMigrations();
+
 if (app.Environment.IsDevelopment())
 {
-    Console.WriteLine("--> Environment is Development. Attempting database migration...");
-    app.Services.ApplyDatabaseMigrations();
+    Console.WriteLine("--> Environment is Development. Seeding data...");
     app.Services.SeedDevelopmentData();
     app.MapOpenApi();
 }
@@ -46,11 +56,6 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler();
 
 app.UseCors();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
 
 app.UseAuthorization();
 
