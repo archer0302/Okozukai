@@ -90,11 +90,16 @@ test.describe('Okozukai E2E', () => {
     // Tag appears in filter section and manage section
     await expect(page.getByText(tagName).first()).toBeVisible({ timeout: 5000 });
 
+    // Close the modal — its overlay would otherwise intercept the next click
+    await page.getByRole('button', { name: 'Close' }).click();
+    await expect(page.getByRole('heading', { name: 'Manage Tags' })).toBeHidden();
+
     // Create a transaction with that tag
     await page.getByRole('button', { name: '+ New Transaction' }).click();
     await page.getByPlaceholder('0.00').fill('75');
     await page.getByRole('textbox', { name: 'What was this for?' }).fill('Tagged expense');
-    await page.locator('form').getByLabel(tagName).check();
+    // The checkbox itself is display:none; the visible control is the label pill
+    await page.locator('form').locator('label', { hasText: tagName }).click();
     await page.getByRole('button', { name: 'Save' }).click();
 
     // Tag appears in filter section
@@ -124,7 +129,7 @@ test.describe('Okozukai E2E', () => {
     await expect(page.getByText('No transactions match the current filters.')).toBeVisible({ timeout: 5000 });
 
     // Clear filters restores transactions
-    await page.getByRole('button', { name: 'Clear' }).click();
+    await page.getByRole('button', { name: 'Clear', exact: true }).click();
     await expect(page.getByText('No transactions match the current filters.')).not.toBeVisible({ timeout: 5000 });
   });
 });
@@ -197,7 +202,7 @@ test.describe('Dashboard page', () => {
     // All 4 chart labels visible
     await expect(page.getByText('Monthly Income vs Expenses').first()).toBeVisible();
     await expect(page.getByText('Spending by Tag').first()).toBeVisible();
-    await expect(page.getByText('Net Balance Trend')).toBeVisible();
+    await expect(page.getByText('Net Balance Trend').first()).toBeVisible();
     await expect(page.getByText('Monthly Spending by Tag').first()).toBeVisible();
   });
 

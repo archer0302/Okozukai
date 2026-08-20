@@ -80,3 +80,8 @@ Thumbs.db
 # Claude Code / GSD tooling — reinstallable, not project source.
 # `.planning/` is deliberately NOT ignored — it is tracked project knowledge.
 .claude/
+
+# Playwright run artifacts
+src/Okozukai.Frontend/test-results/
+src/Okozukai.Frontend/playwright-report/
+src/Okozukai.Frontend/blob-report/

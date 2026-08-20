@@ -126,7 +126,7 @@ npx playwright install chromium   # first run only, downloads the browser
 npm run test:e2e                  # defaults to http://localhost:5173, override with BASE_URL
 ```
 
-Current suite: **31 unit + 22 integration + 16 frontend component tests**, all passing.
+Current suite: **31 unit + 22 integration + 16 frontend component + 14 Playwright E2E tests**, all passing.
 
 ## API overview
 

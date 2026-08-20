@@ -19,16 +19,16 @@ if (!string.IsNullOrEmpty(tailnetIp))
        .WithEnvironment("ASPNETCORE_URLS", aspnetUrls);
 }
 
-var frontend = builder.AddNpmApp("frontend", "../Okozukai.Frontend", "dev")
+// AddViteApp registers the http endpoint and PORT env var itself —
+// calling WithHttpEndpoint here would create a duplicate endpoint.
+var frontend = builder.AddViteApp("frontend", "../Okozukai.Frontend")
     .WithReference(api)
-    .WithHttpEndpoint(
-        port: !string.IsNullOrEmpty(tailnetIp) ? frontendPort : null,
-        env: "PORT",
-        isProxied: string.IsNullOrEmpty(tailnetIp))
     .WithExternalHttpEndpoints();
 
 if (!string.IsNullOrEmpty(tailnetIp))
 {
+    frontend.WithEndpoint("http", e => { e.Port = frontendPort; e.IsProxied = false; });
+
     var tailnetApiUrl = "http://" + tailnetIp + ":" + apiPort;
     frontend.WithEnvironment("VITE_API_URL", tailnetApiUrl);
 }
