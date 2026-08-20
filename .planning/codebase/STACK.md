@@ -18,7 +18,7 @@
 **Environment:**
 - .NET 10 SDK (required)
 - Node.js 20+ (required for frontend development)
-- Docker Desktop (required for PostgreSQL container)
+- PostgreSQL 14+ reachable locally (Homebrew install or any instance; no container required)
 
 **Package Manager:**
 - NuGet - .NET package management (implicit via `dotnet` CLI)
@@ -122,7 +122,7 @@
 **Development:**
 - .NET 10 SDK - Full .NET development environment
 - Node.js 20+ - JavaScript runtime and npm package manager
-- Docker Desktop - PostgreSQL container runtime
+- PostgreSQL 14+ - database server (local install or managed instance)
 - Git - Version control
 - Visual Studio 2022+ or VS Code - Recommended IDE
 

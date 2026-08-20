@@ -69,7 +69,8 @@ tests/
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Node.js 20+](https://nodejs.org/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for the PostgreSQL container)
+- [Aspire CLI](https://aspire.dev) (`aspire run` orchestrates the API and frontend)
+- PostgreSQL 14+ reachable from your machine — a local install (`brew install postgresql@17`) is enough; no container is required
 
 ## Getting started
 
@@ -78,17 +79,20 @@ tests/
 git clone https://github.com/archer0302/Okozukai.git
 cd Okozukai
 
-# 2. Provide a PostgreSQL connection string
+# 2. Create the database
+createdb okozukai
+
+# 3. Provide the connection string
 #    The AppHost reads it from the 'okozukai' connection string.
-#    The easiest way during development is user secrets:
+#    User secrets keep it out of the repository:
 dotnet user-secrets set "ConnectionStrings:okozukai" \
-  "Host=localhost;Port=5432;Database=okozukai;Username=postgres;Password=yourpassword" \
+  "Host=localhost;Port=5432;Database=okozukai;Username=$(whoami)" \
   --project src/Okozukai.AppHost
 
-# 3. Install frontend dependencies
+# 4. Install frontend dependencies
 cd src/Okozukai.Frontend && npm install && cd ../..
 
-# 4. Run the application (starts PostgreSQL container + API + frontend)
+# 5. Run the application (starts the API + frontend)
 aspire run
 ```
 
@@ -116,8 +120,10 @@ dotnet test Okozukai.slnx --no-build -nologo
 # Frontend (Vitest component tests)
 cd src/Okozukai.Frontend && npm test
 
-# Frontend E2E (Playwright — requires the app to be running)
-cd src/Okozukai.Frontend && npm run test:e2e
+# Frontend E2E (Playwright — requires the app to be running via `aspire run`)
+cd src/Okozukai.Frontend
+npx playwright install chromium   # first run only, downloads the browser
+npm run test:e2e                  # defaults to http://localhost:5173, override with BASE_URL
 ```
 
 Current suite: **31 unit + 22 integration + 16 frontend component tests**, all passing.

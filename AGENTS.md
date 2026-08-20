@@ -20,7 +20,7 @@ and other tools that follow the AGENTS.md convention.
 
 ### Running the full application
 - `aspire run` — starts PostgreSQL + API + Vue frontend via the .NET Aspire AppHost
-- Docker Desktop must be running; the API auto-migrates the DB on startup
+- Requires a reachable PostgreSQL instance (local install is fine, no container needed); the API auto-migrates the DB on startup in Development
 - Only restart if `src/Okozukai.AppHost/Program.cs` changes
 
 ## Project overview

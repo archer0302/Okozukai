@@ -90,7 +90,7 @@ This is a self-hosted application with no external API dependencies. All functio
 
 **Hosting:**
 - Self-hosted only — no cloud provider integrations
-- Local development: Docker + .NET Aspire
+- Local development: .NET Aspire + a local PostgreSQL instance
 - Deployment: Any environment with .NET 10 runtime and PostgreSQL
 
 **CI Pipeline:**
