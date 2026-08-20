@@ -14,11 +14,11 @@ read from the working tree.
 The app currently only behaves correctly under `ASPNETCORE_ENVIRONMENT=Development`.
 These make it survive Production mode.
 
-- [ ] **PROD-01**: Database schema is created and migrated automatically when the API starts in Production, so a fresh deployment comes up with a working schema rather than failing on every query
-- [ ] **PROD-02**: Development-only seed data is never inserted outside Development
-- [ ] **PROD-03**: The API honours `X-Forwarded-Proto` from a TLS-terminating proxy, so requests are not redirected into a loop
-- [ ] **PROD-04**: Health endpoints respond outside Development on an internal port, so the container runtime can gate startup and detect failure
-- [ ] **PROD-05**: All deployment configuration, including the database connection string, is read from environment variables rather than developer-machine user secrets
+- [x] **PROD-01**: Database schema is created and migrated automatically when the API starts in Production, so a fresh deployment comes up with a working schema rather than failing on every query
+- [x] **PROD-02**: Development-only seed data is never inserted outside Development
+- [x] **PROD-03**: The API honours `X-Forwarded-Proto` from a TLS-terminating proxy, so requests are not redirected into a loop
+- [x] **PROD-04**: Health endpoints respond outside Development on an internal port, so the container runtime can gate startup and detect failure
+- [x] **PROD-05**: All deployment configuration, including the database connection string, is read from environment variables rather than developer-machine user secrets
 
 ### Single Origin
 
@@ -93,11 +93,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PROD-01 | Phase 1 | Pending |
-| PROD-02 | Phase 1 | Pending |
-| PROD-03 | Phase 1 | Pending |
-| PROD-04 | Phase 1 | Pending |
-| PROD-05 | Phase 1 | Pending |
+| PROD-01 | Phase 1 | Complete |
+| PROD-02 | Phase 1 | Complete |
+| PROD-03 | Phase 1 | Complete |
+| PROD-04 | Phase 1 | Complete |
+| PROD-05 | Phase 1 | Complete |
 | ORIG-01 | Phase 2 | Pending |
 | ORIG-02 | Phase 2 | Pending |
 | ORIG-03 | Phase 2 | Pending |
@@ -114,6 +114,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PERF-02 | Phase 4 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 19 total
 - Mapped to phases: 19 ✓
 - Unmapped: 0 ✓
