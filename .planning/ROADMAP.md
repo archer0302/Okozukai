@@ -39,7 +39,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Behind a reverse proxy that terminates TLS and forwards `X-Forwarded-Proto`, the API serves requests without entering a redirect loop.
   4. A health-check endpoint responds when the API is not in Development, on a port intended for internal use rather than public exposure.
   5. The API starts successfully using only environment variables for its configuration, including the database connection string — no `dotnet user-secrets` involved.
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Production boot path end-to-end: unconditional migrations, ungated health endpoints, HTTPS redirect removed, fail-fast connection-string guard, committed `.env.example`
 
 ### Phase 2: Single-Origin Packaging
 **Goal**: The frontend and API build into container images that a single command brings up as one stack, with the browser talking to exactly one origin instead of two.
@@ -81,7 +84,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 (Phase 4 has no dependency 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Production Readiness | 0/TBD | Not started | - |
+| 1. Production Readiness | 0/1 | Planned | - |
 | 2. Single-Origin Packaging | 0/TBD | Not started | - |
 | 3. Tailnet Access & Network Isolation | 0/TBD | Not started | - |
 | 4. Query Indexes | 0/TBD | Not started | - |
