@@ -30,18 +30,21 @@ The recorded ledger is accurate and never lost — every transaction sums correc
 - ✓ User can toggle individual dashboard chart panels, persisted per journal — existing
 - ✓ User can export a journal's transactions to CSV — existing
 - ✓ User can use the app in dark mode — existing
+- ✓ Database schema is created automatically when deployed in Production — Phase 1
+- ✓ API boots correctly under `ASPNETCORE_ENVIRONMENT=Production` — no HTTPS-redirect loop, dev seed data stays dev-only, `/health` and `/alive` reachable — Phase 1
+- ✓ Missing deployment configuration fails fast at startup, naming the key and never echoing the secret — Phase 1
 
 ### Active
 
 <!-- Milestone 1: homelab deployment. Hypotheses until shipped. -->
 
 - [ ] Okozukai runs on the homelab Linux box as a container stack, serving from its own hardware
-- [ ] Database schema is created automatically when deployed in Production
 - [ ] Frontend is served as a production build, not a Vite dev server
 - [ ] Frontend and API are reachable on a single origin, removing CORS and the build-time API URL
 - [ ] Deployment configuration and secrets come from environment, not developer-machine user secrets
 - [ ] The app is reachable over the Tailnet and not otherwise exposed
 - [ ] Transaction queries are indexed on `(JournalId, OccurredAt)` and the tag join keys
+- [ ] `DevSeedData.SeedDevelopmentData` must not be able to wipe a real database — it calls `RemoveRange` on all tags and journals guarded only by "zero transactions", so a journals-and-tags-but-no-transactions database would be destroyed by an accidental Development start (emerged in Phase 1; not a Phase 1 blocker)
 
 ### Out of Scope
 
@@ -90,6 +93,9 @@ The recorded ledger is accurate and never lost — every transaction sums correc
 | Adopted `AddViteApp` over `AddNpmApp` | `Aspire.Hosting.NodeJs` is a dead-end package stopping at 9.5.2; `Aspire.Hosting.JavaScript` is actively released and exposes `PublishAsStaticWebsite` for same-origin deployment | — Pending |
 | Kept the C# backend rather than rewriting in TypeScript | ~3,100 lines for exact feature parity, and JavaScript has no native decimal type — a correctness regression for a ledger | ✓ Good |
 | Stopped tracking `.claude/` | 680 files and 11MB of installer-generated tooling, reinstallable via npx; `.planning/` remains tracked as real project knowledge | ✓ Good |
+| Deleted `UseHttpsRedirection()` outright rather than adding `UseForwardedHeaders` | This topology has no TLS terminator anywhere in the milestone (D-07), so there is no forwarded-proto header to trust; removal is the correct fix and leaves no header to forge trust from | ✓ Good — Phase 1, also closes threat T-01-04 by omission |
+| Fixed the `AddJournalsPhase5` migration in place | It unconditionally inserted a `Default` journal into *every* fresh database, violating PROD-02's zero-seed guarantee; the migration has never run against a real production database, so editing `Up()` is safe and this is the last moment it will be | ✓ Good — Phase 1, caught by boot verification against a genuinely empty database |
+| Accepted the DB password in a single `ConnectionStrings__okozukai` env var | Single-tenant Tailnet-only box; discrete `POSTGRES_*` vars and the Docker-secret `_FILE` pattern were both considered and rejected as disproportionate (D-13) | ⚠️ Revisit if the box ever becomes multi-tenant — recorded as accepted risk R-01 in `01-SECURITY.md` |
 
 ## Evolution
 
@@ -109,4 +115,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-20 after initialization*
+*Last updated: 2026-08-21 after Phase 1*

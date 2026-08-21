@@ -23,7 +23,7 @@ in any order relative to the others.
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Production Readiness** - The app behaves correctly when hosted in Production, not just Development
+- [x] **Phase 1: Production Readiness** - The app behaves correctly when hosted in Production, not just Development (completed 2026-08-21)
 - [ ] **Phase 2: Single-Origin Packaging** - Frontend and API build into containers that serve from one origin via one command
 - [ ] **Phase 3: Tailnet Access & Network Isolation** - The stack is reachable over Tailscale only, with the database and internals unexposed
 - [ ] **Phase 4: Query Indexes** - Transaction and tag queries run against indexes instead of full table scans
@@ -98,7 +98,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 (Phase 4 has no dependency 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Production Readiness | 1/1 | In Progress|  |
+| 1. Production Readiness | 1/1 | Complete    | 2026-08-21 |
 | 2. Single-Origin Packaging | 0/TBD | Not started | - |
 | 3. Tailnet Access & Network Isolation | 0/TBD | Not started | - |
 | 4. Query Indexes | 0/TBD | Not started | - |
