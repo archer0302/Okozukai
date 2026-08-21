@@ -65,10 +65,18 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
+**Wave 1**
 
 - [ ] 02-01-PLAN.md — One published origin end to end: CORS removed, SPA served from the API image, relative axios client, Dockerfile, `.dockerignore`, two-service `compose.yaml`, per-path cache headers
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 02-02-PLAN.md — Dev-loop parity: Vite `/api` proxy on the observed Aspire service-discovery variable, AppHost injection removed, 14 E2E tests re-proven, agent-facing docs corrected
 - [ ] 02-03-PLAN.md — Durability and secrets: down/up cycle proving the ledger survives recreation, clean first-boot provisioning, delimiter-bearing password end to end, Production mode pinned
+
+**Cross-cutting constraints:**
+
+- Two `docker compose up` invocations racing under the same project name do not produce two writers against the named volume — the second attaches to the containers the first created rather than starting a second database process.
 
 ### Phase 3: Tailnet Access & Network Isolation
 
