@@ -62,7 +62,13 @@ Plans:
   4. Recreating the containers preserves existing PostgreSQL data via a named volume, and required secrets are supplied at runtime rather than committed to the repository.
   5. Static assets are served with cache headers that let the PWA service worker fetch a new bundle after a redeploy, instead of pinning a stale cached version indefinitely.
 
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+
+- [ ] 02-01-PLAN.md — One published origin end to end: CORS removed, SPA served from the API image, relative axios client, Dockerfile, `.dockerignore`, two-service `compose.yaml`, per-path cache headers
+- [ ] 02-02-PLAN.md — Dev-loop parity: Vite `/api` proxy on the observed Aspire service-discovery variable, AppHost injection removed, 14 E2E tests re-proven, agent-facing docs corrected
+- [ ] 02-03-PLAN.md — Durability and secrets: down/up cycle proving the ledger survives recreation, clean first-boot provisioning, delimiter-bearing password end to end, Production mode pinned
 
 ### Phase 3: Tailnet Access & Network Isolation
 
@@ -99,6 +105,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 (Phase 4 has no dependency 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Production Readiness | 1/1 | Complete    | 2026-08-21 |
-| 2. Single-Origin Packaging | 0/TBD | Not started | - |
+| 2. Single-Origin Packaging | 0/3 | Planned      | - |
 | 3. Tailnet Access & Network Isolation | 0/TBD | Not started | - |
 | 4. Query Indexes | 0/TBD | Not started | - |
