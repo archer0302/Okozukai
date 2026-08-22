@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-08-22T00:59:31.672Z",
+  "phase": "02",
+  "phase_name": "Single-Origin Packaging",
+  "phase_dir": ".planning/phases/02-single-origin-packaging",
+  "plan": null,
+  "task": 0,
+  "total_tasks": 7,
+  "status": "paused",
+  "pause_reason": "Relocating the coding session to a different machine. Nothing is mid-execution; the phase is fully planned and the working tree holds no source changes.",
+  "completed_tasks": [
+    {"id": 0, "name": "Phase 2 context capture (02-CONTEXT.md, 02-DISCUSSION-LOG.md)", "status": "done", "commit": "e77dd15"},
+    {"id": 0, "name": "Phase 2 domain research (02-RESEARCH.md)", "status": "done", "commit": "e758705"},
+    {"id": 0, "name": "Phase 2 pattern mapping (02-PATTERNS.md)", "status": "done", "commit": "uncommitted-until-this-handoff"},
+    {"id": 0, "name": "Phase 2 planning — 3 plans across 2 waves + COVERAGE.md", "status": "done", "commit": "af32c23,eaa151e"}
+  ],
+  "remaining_tasks": [
+    {"id": 1, "plan": "02-01", "wave": 1, "name": "Origin collapse + container packaging (2 tasks): strip CORS, relative axios base URL, Dockerfile, .dockerignore, compose.yaml, .env.example, .nvmrc", "status": "not_started"},
+    {"id": 2, "plan": "02-02", "wave": 2, "name": "Dev-loop single-origin parity (3 tasks): Vite dev proxy, AppHost stops injecting frontend API URL, docs de-reference the API base URL", "status": "not_started"},
+    {"id": 3, "plan": "02-03", "wave": 2, "name": "Persistence + credential correctness (2 tasks): named volume mount path, POSTGRES_DB/connection-string agreement, Npgsql quoting for ;/= passwords", "status": "not_started"}
+  ],
+  "blockers": [
+    {"description": "The app's PostgreSQL role must hold CREATEDB for the 3D000 auto-create fallback, or provisioning must rely on POSTGRES_DB auto-creation on first container boot. Unverifiable from Phase 1's local Homebrew Postgres where the role is already superuser.", "type": "technical", "workaround": "02-03 resolves this by making the two configuration surfaces agree so the 3D000 fallback never fires."},
+    {"description": "Two Phase 1 UAT items were deliberately deferred to Phase 2 deploy-time verification: (a) an interrupted mid-migration startup resuming from __EFMigrationsHistory, (b) an Npgsql connection-string password containing ';' or '='.", "type": "technical", "workaround": "Both are carried as must-haves in 02-01 and 02-03 respectively."},
+    {"description": "Docker must be installed and running on the machine that executes this phase — all three plans build images and run a compose stack.", "type": "external", "workaround": "None. This is the hard prerequisite for the machine move."}
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Install Docker (Desktop or engine + compose v2) on the new machine and confirm `docker compose version` works.", "context": "Phase 2 is entirely container packaging; no plan can be verified without a working container runtime.", "blocking": true},
+    {"action": "Install Claude Code and re-run the GSD installer in the repo to regenerate .claude/ (gitignored at .gitignore:82).", "context": "The GSD runtime, hooks, agents and settings.local.json do not travel with git. settings.local.json also hardcodes an nvm node path (/Users/archer.chang/.nvm/versions/node/v22.18.0/bin/node) that will differ on the new machine — let the installer rewrite it rather than copying it.", "blocking": true},
+    {"action": "Re-enable the MCP servers this project uses: aspire and playwright.", "context": "Recorded in the gitignored .claude/settings.local.json enabledMcpjsonServers. The Playwright E2E suite is a regression guard for 02-02.", "blocking": false},
+    {"action": "Ensure the new machine has the .NET 10 SDK and Node 22 (.nvmrc is authored in 02-01).", "context": "Needed to run the 31 unit tests, 22 WebApplicationFactory integration tests, 16 Vitest tests and 14 Playwright E2E tests that every plan uses as regression guards.", "blocking": true}
+  ],
+  "decisions": [
+    {"decision": "Phase 2 planned as 3 plans in 2 waves — 02-01 alone in wave 1, then 02-02 and 02-03 in parallel, both depending on 02-01.", "rationale": "02-01 establishes the origin collapse and the compose stack that the other two plans build on; once it lands, the dev-loop work and the persistence work touch disjoint files.", "phase": "02"},
+    {"decision": "apiPort and its TAILNET_API_PORT source stay in src/Okozukai.AppHost/Program.cs.", "rationale": "02-PATTERNS.md corrects 02-CONTEXT.md on this point — the API's own ASPNETCORE_URLS wiring still consumes them, so only the frontend API-URL injection is removed.", "phase": "02"},
+    {"decision": "COVERAGE.md declares no external API integration despite the detector firing six signals.", "rationale": "All six are false positives over the word 'API' referring to this repository's own src/Okozukai.Api project. Documented row by row so the gate is not re-litigated on resume.", "phase": "02"},
+    {"decision": "Development is made single-origin too, via a Vite dev proxy rather than a dev-only absolute base URL.", "rationale": "An absolute base URL anywhere in the frontend's API layer can be baked into a bundle; origin-relativity is a construction guarantee, not a default (D-06).", "phase": "02"}
+  ],
+  "uncommitted_files": [
+    ".planning/config.json",
+    ".planning/phases/01-production-readiness/01-VERIFICATION.md",
+    ".planning/phases/02-single-origin-packaging/02-PATTERNS.md"
+  ],
+  "deliberately_not_committed": [
+    {"path": ".gsd/", "reason": "Runtime dispatch sentinel — regenerated locally, must not travel."},
+    {"path": ".planning/research/.cache/", "reason": "Web-research fetch cache (5 files, 20K). Derived and regenerable; losing it on the machine move costs nothing."}
+  ],
+  "next_action": "On the new machine: clone, install Claude Code + GSD, install Docker/.NET 10/Node 22, then run /gsd-resume-work followed by /gsd-execute-phase 2. Wave 1 is plan 02-01 alone.",
+  "context_notes": "Phase 1 is verified and complete (16/18 must-haves, both human_verification items now answered — status flipped to passed). Phase 2 is fully planned but zero tasks executed: no source file under src/ has been touched for this phase, and the working tree carries no code changes at all. This pause is purely a machine relocation, not a mid-task interruption, so there is no partial work to reconstruct — the resuming agent should read the three PLAN.md files and start wave 1 clean. The only thing that does not survive the move is the conversation transcript itself; everything else that matters is under .planning/ and tracked."
+}

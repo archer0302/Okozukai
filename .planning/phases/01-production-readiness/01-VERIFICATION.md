@@ -1,15 +1,17 @@
 ---
 phase: 01-production-readiness
 verified: 2026-08-21T00:00:00Z
-status: human_needed
+status: passed
 score: 16/18 must-haves verified
 behavior_unverified: 0
 overrides_applied: 0
 behavior_unverified_items: []
 human_verification:
+
   - test: "Read the captured Production-boot startup log (or re-run one) and confirm it shows the migration attempt/success lines with no environment-name announcement of seeding, and no HTTPS-redirect or certificate warning anywhere in the output."
     expected: "Log contains 'Attempting to apply database migrations' / 'Migrations applied successfully' lines and zero mentions of HTTPS redirect or TLS certificate warnings."
     why_human: "PLAN.md Task 1 explicitly designates this as `<human-check>` under `human_verify_mode: end-of-phase` — the log content read is a qualitative confirmation, not a re-run of the automated assertions."
+
   - test: "Confirm the acceptable-risk framing for the two `verification: backstop` must-haves: (1) an interrupted mid-migration startup resumes cleanly from __EFMigrationsHistory on next boot rather than leaving a half-applied schema; (2) a connection-string password containing `;` or `=` is handled correctly via Npgsql's quoting rules at real deploy time (not exercised — .env.example only documents the plain unquoted form)."
     expected: "Human agrees these two backstop truths are acceptably deferred to Phase 2 deploy-time verification (real credential authored then) rather than needing a synthetic interruption/quoting test in Phase 1."
     why_human: "Both must-haves are marked `verification: backstop` in PLAN.md frontmatter — the planner already flagged these as non-inferable from static/dynamic checks available at this phase; per the honest-verifier contract they route to human judgment rather than being auto-resolved."
